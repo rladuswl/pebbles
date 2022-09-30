@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     // beanstalk 배포
-    @GetMapping("/")
+    @GetMapping("/test")
     public String test() throws Exception{
         return "test(테스트)";
     }
