@@ -8,7 +8,7 @@ public class TestController {
 
     // beanstalk 배포
     @GetMapping("/test")
-    public String test() throws Exception{
+    public String test() {
         return "test(테스트)";
     }
 }
