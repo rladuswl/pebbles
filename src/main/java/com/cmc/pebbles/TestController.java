@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     // beanstalk 배포
-    @GetMapping("/test")
+    @GetMapping("/")
     public String test() {
         return "test(테스트)";
     }
+
 }
