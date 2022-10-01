@@ -9,7 +9,7 @@ public class TestController {
     // beanstalk 배포
     @GetMapping("/")
     public String test() {
-        return "test(테스트)";
+        return "하룻강아지 안뇽";
     }
 
 
