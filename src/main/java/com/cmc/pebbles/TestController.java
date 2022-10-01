@@ -15,7 +15,7 @@ public class TestController {
     }
 
     // test
-    @PostMapping("/name")
+    @GetMapping("/name")
     public String test2(@RequestParam String name) {
         return "hi " + name;
     }
