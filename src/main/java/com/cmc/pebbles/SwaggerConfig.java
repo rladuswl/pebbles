@@ -6,6 +6,7 @@ import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// Swagger2: http://localhost:8080/swagger-ui.html
 @Configuration
 public class SwaggerConfig {
 

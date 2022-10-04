@@ -17,11 +17,11 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://pebbles.cjtx83kncko7.ap-northeast-2.rds.amazonaws.com/pebbles
 
     username: admin
-    password:
+    password: 20000118
 
   main:
     allow-circular-references: true
@@ -31,35 +31,35 @@ spring:
       ddl-auto: create
     show-sql: true
 
-    security:
-      oauth2:
-        client:
-          registration:
-            kakao:
-              client-id:
-              client-secret:
-              redirect-uri:
-              authorization-grant-type: authorization_code
-              client-authentication-method: GET
-              client-name: kakao
-              scope:
-                - profile_nickname
-                - account_email
-          provider:
-            kakao:
-              authorization-uri: https://kauth.kakao.com/oauth/authorize
-              token-uri: https://kauth.kakao.com/oauth/token
-              user-info-uri: https://kapi.kakao.com/v2/user/me
-              user-name-attribute: id
-
-cloud:
-  aws:
-    credentials:
-      access-key:
-      secret-key:
-    s3:
-      bucket:
-    region:
-      static: ap-northeast-2 # 리전 정보
-    stack:
-      auto: false
+#    security:
+#      oauth2:
+#        client:
+#          registration:
+#            kakao:
+#              client-id:
+#              client-secret:
+#              redirect-uri:
+#              authorization-grant-type: authorization_code
+#              client-authentication-method: GET
+#              client-name: kakao
+#              scope:
+#                - profile_nickname
+#                - account_email
+#          provider:
+#            kakao:
+#              authorization-uri: https://kauth.kakao.com/oauth/authorize
+#              token-uri: https://kauth.kakao.com/oauth/token
+#              user-info-uri: https://kapi.kakao.com/v2/user/me
+#              user-name-attribute: id
+#
+#cloud:
+#  aws:
+#    credentials:
+#      access-key:
+#      secret-key:
+#    s3:
+#      bucket:
+#    region:
+#      static: ap-northeast-2 # 리전 정보
+#    stack:
+#      auto: false
