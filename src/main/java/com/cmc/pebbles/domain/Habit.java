@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Entity
@@ -30,4 +31,14 @@ public class Habit {
     private int seq;
     private String today_status;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "highlight_id")
+    private Highlight highlight;
+
+    @OneToMany(mappedBy = "habit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<DayHabit> dayHabits;
+
+    @OneToMany(mappedBy = "habit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Todo> todos;
 }

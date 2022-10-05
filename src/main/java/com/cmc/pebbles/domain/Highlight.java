@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Entity
@@ -27,4 +28,11 @@ public class Highlight {
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private Timestamp createdDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "highlight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Habit> habits;
 }

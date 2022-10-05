@@ -3,11 +3,13 @@ package com.cmc.pebbles.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Entity
@@ -23,8 +25,12 @@ public class User {
     private String kakao_profile;
     private String email;
     private String goal;
+    @ColumnDefault("'ACTIVE'")
     private String status;
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private Timestamp createdDate;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Highlight> highlights;
 }

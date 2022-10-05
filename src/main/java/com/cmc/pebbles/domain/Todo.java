@@ -21,4 +21,8 @@ public class Todo {
     private String name;
     private int seq;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "habit_id")
+    private Habit habit;
 }
