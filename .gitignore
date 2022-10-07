@@ -26,6 +26,14 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+### yml ###
+*.yml
+application.yml
+**/resources/application.yml
+
+### properties ###
+JwtProperties.java
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

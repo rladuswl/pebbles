@@ -25,6 +25,7 @@ public class User {
     private String kakao_profile;
     private String email;
     private String goal;
+    private String role;
     @ColumnDefault("'ACTIVE'")
     private String status;
     @CreationTimestamp
