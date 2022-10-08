@@ -1,28 +1,34 @@
 package com.cmc.pebbles.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
-// Swagger2: http://localhost:8080/swagger-ui.html
+// Swagger: http://localhost:8080/swagger-ui/
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public GroupedOpenApi publicApi() {
-        return GroupedOpenApi.builder()
-                .group("v1-definition")
-                .pathsToMatch("/**")
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(true) // Swagger 에서 제공해주는 기본 응답 코드 (200, 401, 403, 404) 등의 노출 여부
+                .apiInfo(apiInfo()) // Swagger UI 로 노출할 정보
+                .select()
+                .apis(RequestHandlerSelectors.any()) // api 스펙이 작성되어 있는 패키지 (controller)
+                .paths(PathSelectors.any()) // apis 에 위치하는 API 중 특정 path 를 선택
                 .build();
     }
 
-    @Bean
-    public OpenAPI springShopOpenAPI() {
-        return new OpenAPI()
-                .info(new Info().title("Pebbles API")
-                        .description("오늘의 조약돌 프로젝트 API 명세서입니다.")
-                        .version("v0.0.1"));
+    public ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Pebbles API Documentation")
+                .description("pebbles API 명세서")
+                .version("0.1")
+                .build();
     }
 }
