@@ -2,10 +2,16 @@ package com.cmc.pebbles.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @ApiModel(value = "todo 정보", description = "habit에 해당하는 모든 todo 정보")
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class GetTodoRes {
     @ApiModelProperty(value = "todo ID")
     private Long id;

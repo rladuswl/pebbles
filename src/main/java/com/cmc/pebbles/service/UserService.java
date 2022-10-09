@@ -6,6 +6,7 @@ import com.cmc.pebbles.dto.GetHomeRes;
 import com.cmc.pebbles.dto.GetTodoRes;
 import com.cmc.pebbles.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
