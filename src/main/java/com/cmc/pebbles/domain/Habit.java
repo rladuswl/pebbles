@@ -24,12 +24,12 @@ public class Habit {
     private String end;
     private String weeks;
     private String time;
-    private String today;
+    //private String today;
     private int cons_days;
     private int current_pebbles;
     private int total_pebbles;
     private int seq;
-    private String today_status;
+    //private String today_status;
     private String status;
 
     @ManyToOne
@@ -41,4 +41,6 @@ public class Habit {
 
     @OneToMany(mappedBy = "habit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Todo> todos;
+
+    private Long userId; // home 화면에서 habit들 쉽게 가져오기 위해 필드 추가
 }
