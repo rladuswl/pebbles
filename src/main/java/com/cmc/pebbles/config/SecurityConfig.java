@@ -40,9 +40,9 @@ public class SecurityConfig {
                 .access("hasRole('ROLE_USER')")
                 .anyRequest().permitAll()
                 .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+//                .and()
                 .build();
     }
 
