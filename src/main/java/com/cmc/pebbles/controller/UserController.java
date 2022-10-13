@@ -4,12 +4,8 @@ import com.cmc.pebbles.config.auth.PrincipalDetails;
 import com.cmc.pebbles.domain.User;
 import com.cmc.pebbles.dto.GetHomeRes;
 import com.cmc.pebbles.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +23,9 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 에러")
 
     })
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "authentication", dataType = "Authentication", value = "로그인 된 유저 세션 (클라이언트에서 보낼 필요x)"),
+//    })
     @GetMapping("/auth/home")
     public GetHomeRes home(Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
