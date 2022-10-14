@@ -23,9 +23,6 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 에러")
 
     })
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "authentication", dataType = "Authentication", value = "로그인 된 유저 세션 (클라이언트에서 보낼 필요x)"),
-//    })
     @GetMapping("/auth/home")
     public GetHomeRes home(Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
