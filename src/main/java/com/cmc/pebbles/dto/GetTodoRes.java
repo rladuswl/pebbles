@@ -19,6 +19,6 @@ public class GetTodoRes {
     private String name;
     @ApiModelProperty(value = "todo 순서")
     private int seq;
-    @ApiModelProperty(value = "todo 전부 완료 여부")
+    @ApiModelProperty(value = "완료 여부 (항상 false)")
     private String status;
 }
