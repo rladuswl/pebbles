@@ -25,8 +25,8 @@ public class GetHabitsRes {
     private String end;
     @ApiModelProperty(value = "habit 요일")
     private String weeks;
-    @ApiModelProperty(value = "habit 시간")
-    private String time;
+//    @ApiModelProperty(value = "habit 시간")
+//    private String time;
     @ApiModelProperty(value = "habit 실천하는 날짜")
     private String today;
     @ApiModelProperty(value = "연속 일수")

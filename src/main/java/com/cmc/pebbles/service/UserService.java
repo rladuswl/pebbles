@@ -1,9 +1,7 @@
 package com.cmc.pebbles.service;
 
 import com.cmc.pebbles.domain.*;
-import com.cmc.pebbles.dto.GetHabitsRes;
-import com.cmc.pebbles.dto.GetHomeRes;
-import com.cmc.pebbles.dto.GetTodoRes;
+import com.cmc.pebbles.dto.*;
 import com.cmc.pebbles.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +55,6 @@ public class UserService {
                         .start(h.getStart())
                         .end(h.getEnd())
                         .weeks(h.getWeeks())
-                        .time(h.getTime())
                         .today(dh.getToday())
                         .cons_days(h.getCons_days())
                         .seq(h.getSeq())
@@ -74,5 +71,9 @@ public class UserService {
                 .habits(getHabitsResList).build();
 
         return getHomeRes;
+    }
+
+    public String newHighlight(User user, PostHighlightReq postHighlightReq) {
+        return "완료";
     }
 }

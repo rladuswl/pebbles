@@ -36,38 +36,56 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
         System.out.println("jwtHeader : " + jwtHeader);
 
-        if (jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)){
+        if (jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
 
         String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
 
-        Long userId = null;
+//        Long userId = null;
+//
+//        try {
+//               userId = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+//                       .getClaim("id").asLong();
+//
+//            Optional<User> user = userRepository.findById(userId);
+//
+//           PrincipalDetails principalDetails = new PrincipalDetails(user.get());
+//
+//           Authentication authentication =
+//                   new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+//
+//           SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        } catch (TokenExpiredException e) {
+//           e.printStackTrace();
+//           request.setAttribute(JwtProperties.HEADER_STRING, "토큰이 만료되었습니다.");
+//        } catch (JWTVerificationException e) {
+//           e.printStackTrace();
+//           request.setAttribute(JwtProperties.HEADER_STRING, "유효하지 않은 토큰입니다.");
+//        }
+//
+//        request.setAttribute("id", userId);
+//
+//        chain.doFilter(request, response);
+//    }
 
-        try {
-               userId = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
-                       .getClaim("id").asLong();
+        String username =
+                JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+                        .getClaim("email").asString();
 
-            Optional<User> user = userRepository.findById(userId);
+        if (username != null) {
+            User user = userRepository.findByUsername(username);
 
-           PrincipalDetails principalDetails = new PrincipalDetails(user.get());
+            PrincipalDetails principalDetails = new PrincipalDetails(user);
 
-           Authentication authentication =
-                   new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
 
-           SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (TokenExpiredException e) {
-           e.printStackTrace();
-           request.setAttribute(JwtProperties.HEADER_STRING, "토큰이 만료되었습니다.");
-        } catch (JWTVerificationException e) {
-           e.printStackTrace();
-           request.setAttribute(JwtProperties.HEADER_STRING, "유효하지 않은 토큰입니다.");
+            chain.doFilter(request, response);
         }
-
-        request.setAttribute("id", userId);
-
-        chain.doFilter(request, response);
     }
 }

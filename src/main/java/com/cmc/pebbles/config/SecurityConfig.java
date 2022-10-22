@@ -1,6 +1,7 @@
 package com.cmc.pebbles.config;
 
 import com.cmc.pebbles.config.jwt.CustomAuthenticationEntryPoint;
+import com.cmc.pebbles.config.jwt.JwtAuthenticationFilter;
 import com.cmc.pebbles.config.jwt.JwtAuthorizationFilter;
 import com.cmc.pebbles.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**")
+                .antMatchers("/aut/**")
                 .access("hasRole('ROLE_USER')")
                 .anyRequest().permitAll()
                 .and()
@@ -52,6 +53,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
                     .addFilter(corsFilter)
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }

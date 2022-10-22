@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetHomeRes {
-
     @ApiModelProperty(value = "오늘 날짜")
     private String today;
     @ApiModelProperty(value = "날짜 별 habits")
