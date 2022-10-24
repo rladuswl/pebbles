@@ -1,6 +1,7 @@
 package com.cmc.pebbles.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+@Builder
 @Getter
 @Entity
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class Highlight {
     private String start;
     private String end;
     private int total_pebbles;
-    private int seq;
+    //private int seq;
     private String status;
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")

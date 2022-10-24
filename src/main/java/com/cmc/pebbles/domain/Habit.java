@@ -1,6 +1,7 @@
 package com.cmc.pebbles.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+@Builder
 @Getter
 @Entity
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class Habit {
     private String start;
     private String end;
     private String weeks;
-    private String time;
+    //private String time;
     //private String today;
     private int cons_days;
     private int current_pebbles;

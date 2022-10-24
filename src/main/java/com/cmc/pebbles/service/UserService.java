@@ -72,6 +72,51 @@ public class UserService {
     }
 
     public String newHighlight(User user, PostHighlightReq postHighlightReq) {
+        Highlight highlight = Highlight.builder()
+                .name(postHighlightReq.getName())
+                .start(postHighlightReq.getStart())
+                .end(postHighlightReq.getEnd())
+                .total_pebbles(0)
+                .status("False")
+                .user(user)
+                .build();
+
+        List<PostHabitReq> habits = postHighlightReq.getHabits();
+        for (PostHabitReq h : habits) {
+            Habit habit = Habit.builder()
+                    .name(h.getName())
+                    .start(h.getStart())
+                    .end(h.getEnd())
+                    .weeks(h.getWeeks())
+                    .cons_days(0)
+                    .current_pebbles(0)
+                    .total_pebbles(0)
+                    .seq(h.getSeq())
+                    .status("False")
+                    .userId(user.getId()).build();
+
+            habitRepository.save(habit);
+
+            List<String> days = h.getDays();
+            for (String day : days) {
+                DayHabit dayHabit = DayHabit.builder()
+                        .today(day)
+                        .today_status("False").build();
+                dayHabitRepository.save(dayHabit);
+            }
+
+            List<PostTodoReq> todos = h.getTodos();
+            for (PostTodoReq t : todos) {
+                Todo todo = Todo.builder()
+                        .name(t.getName())
+                        .seq(t.getSeq())
+                        .status("False").build();
+                todoRepository.save(todo);
+
+            }
+        }
+        highlightRepository.save(highlight);
+
         return "완료";
     }
 }

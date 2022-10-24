@@ -22,7 +22,7 @@ public class PostHabitReq {
     @ApiModelProperty(value = "habit 종료일")
     private String end;
     @ApiModelProperty(value = "habit 요일")
-    private List<String> weeks;
+    private String weeks;
     @ApiModelProperty(value = "habit 순서")
     private int seq;
     @ApiModelProperty(value = "각 habit의 todo")
