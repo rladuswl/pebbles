@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@ApiModel(value = "new highlight 정보", description = "생성하려는 highlight 데이터")
+@ApiModel(value = "new highlight 정보 (추가 api Dto)", description = "생성하려는 highlight 데이터")
 @Builder
 @Getter
 @NoArgsConstructor

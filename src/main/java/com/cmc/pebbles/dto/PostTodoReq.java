@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "new todo 정보", description = "생성하려는 todo 데이터")
+@ApiModel(value = "new todo 정보 (추가 api Dto)", description = "생성하려는 todo 데이터")
 @Builder
 @Getter
 @NoArgsConstructor

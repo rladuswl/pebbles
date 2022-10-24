@@ -4,7 +4,6 @@ import com.cmc.pebbles.domain.*;
 import com.cmc.pebbles.dto.*;
 import com.cmc.pebbles.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,7 +29,6 @@ public class UserService {
         List<GetHabitsRes> getHabitsResList = new ArrayList<>();
         List<GetTodoRes> getTodoResList = new ArrayList<>();
 
-//        List<Highlight> highlights = highlightRepository.findByUserId(user.getId());
         List<Habit> habits = habitRepository.findByUserId(user.getId());
 
         for (Habit h : habits) {

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"유저 API 정보를 제공하는 Controller"})
@@ -39,7 +40,7 @@ public class UserController {
 
     })
     @PostMapping("/auth/new")
-    public String newHighlight(Authentication authentication, PostHighlightReq postHighlightReq) {
+    public String newHighlight(Authentication authentication, @RequestBody PostHighlightReq postHighlightReq) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         User user = principalDetails.getUser();
         userService.newHighlight(user, postHighlightReq);

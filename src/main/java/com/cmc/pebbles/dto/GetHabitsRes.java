@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@ApiModel(value = "habit 정보", description = "해당 유저의 모든 habit 정보")
+@ApiModel(value = "habit 정보 (홈 응답 Dto)", description = "해당 유저의 모든 habit 정보")
 @Builder
 @Getter
 @NoArgsConstructor

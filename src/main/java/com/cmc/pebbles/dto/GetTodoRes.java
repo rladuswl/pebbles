@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "todo 정보", description = "habit에 해당하는 모든 todo 정보")
+@ApiModel(value = "todo 정보 (홈 응답 Dto)", description = "habit에 해당하는 모든 todo 정보")
 @Builder
 @Getter
 @NoArgsConstructor
