@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 public class JoinReq {
     @ApiModelProperty(value = "유저 닉네임")
     private String username;
+    @ApiModelProperty(value = "유저 비밀번호")
+    private String password;
     @ApiModelProperty(value = "목표")
     private String goal;
 }

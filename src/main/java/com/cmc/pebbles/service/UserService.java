@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class UserService {
     private final TodoRepository todoRepository;
     private final DayHabitRepository dayHabitRepository;
 
-    public GetHomeRes home(User user) {
+    public GetHomeRes home(Long useId) {
         LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formatedNow = now.format(formatter);
@@ -29,7 +30,7 @@ public class UserService {
         List<GetHabitsRes> getHabitsResList = new ArrayList<>();
         List<GetTodoRes> getTodoResList = new ArrayList<>();
 
-        List<Habit> habits = habitRepository.findByUserId(user.getId());
+        List<Habit> habits = habitRepository.findByUserId(useId);
 
         for (Habit h : habits) {
             List<Todo> todos = todoRepository.findByHabitId(h.getId());
@@ -71,14 +72,16 @@ public class UserService {
         return getHomeRes;
     }
 
-    public String newHighlight(User user, PostHighlightReq postHighlightReq) {
+    public String newHighlight(Long userId, PostHighlightReq postHighlightReq) {
+        Optional<User> user = userRepository.findById(userId);
+
         Highlight highlight = Highlight.builder()
                 .name(postHighlightReq.getName())
                 .start(postHighlightReq.getStart())
                 .end(postHighlightReq.getEnd())
                 .total_pebbles(0)
                 .status("False")
-                .user(user)
+                .user(user.get())
                 .build();
 
         List<PostHabitReq> habits = postHighlightReq.getHabits();
@@ -93,7 +96,7 @@ public class UserService {
                     .total_pebbles(0)
                     .seq(h.getSeq())
                     .status("False")
-                    .userId(user.getId()).build();
+                    .userId(user.get().getId()).build();
 
             habitRepository.save(habit);
 

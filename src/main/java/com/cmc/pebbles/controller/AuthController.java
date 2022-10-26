@@ -3,9 +3,12 @@ package com.cmc.pebbles.controller;
 import com.cmc.pebbles.config.BaseException;
 import com.cmc.pebbles.config.BaseResponse;
 import com.cmc.pebbles.dto.JoinReq;
+import com.cmc.pebbles.dto.LoginReq;
+import com.cmc.pebbles.dto.LoginRes;
 import com.cmc.pebbles.service.AuthService;
 import com.cmc.pebbles.utils.JwtService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,36 +21,26 @@ public class AuthController {
 
     private final JwtService jwtService;
 
+    @ApiOperation(value = "로그인 화면", notes = "유저는 아이디와 비밀번호로 로그인을 한다.")
     @ResponseBody
     @PostMapping ("/login")
-    public BaseResponse<PostLoginRes> login(@RequestBody PostLoginReq postLoginReq) {
+    public BaseResponse<LoginRes> login(@RequestBody LoginReq loginReq) {
         try{
-            if (postLoginReq.getEmail() == null) {
-                return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
-            }
 
-            if (postLoginReq.getPwd() == null) {
-                return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
-            }
-
-            // 정규식 검증 (이메일 형식, 비밀번호 형식이 맞는지)
-            if (!isRegexEmail(postLoginReq.getEmail())) {
-                return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
-            }
-
-            PostLoginRes postLoginRes = authService.login(postLoginReq);
-            return new BaseResponse<>(postLoginRes);
+            LoginRes loginRes = authService.login(loginReq);
+            return new BaseResponse<>(loginRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
+    @ApiOperation(value = "회원가입 화면", notes = "유저는 아이디와 비밀번호, 목표를 입력하여 회원가입을 한다.")
     @ResponseBody
     @PostMapping("/join")
-    public BaseResponse<String> createUser(@RequestBody JoinReq joinReq) {
+    public BaseResponse<LoginRes> createUser(@RequestBody JoinReq joinReq) {
         try{
-            authService.createUser(postUserReq);
-            return new BaseResponse<>(postUserRes);
+            LoginRes loginRes = authService.createUser(joinReq);
+            return new BaseResponse<>(loginRes);
         } catch(BaseException exception){
             return new BaseResponse((exception.getStatus()));
         }
