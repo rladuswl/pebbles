@@ -3,7 +3,6 @@ package com.cmc.pebbles.utils;
 
 import com.cmc.pebbles.config.BaseException;
 import com.cmc.pebbles.config.jwt.JwtProperties;
-import com.cmc.pebbles.config.secret.Secret;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -61,7 +60,7 @@ public class JwtService {
         Jws<Claims> claims;
         try{
             claims = Jwts.parser()
-                    .setSigningKey(Secret.JWT_SECRET_KEY)
+                    .setSigningKey(JwtProperties.SECRET)
                     .parseClaimsJws(accessToken);
         } catch (Exception ignored) {
             throw new BaseException(INVALID_JWT);
