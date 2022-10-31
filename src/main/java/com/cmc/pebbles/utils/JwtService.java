@@ -61,23 +61,14 @@ public class JwtService {
 
         // 2. JWT parsing
         Jws<Claims> claims;
-//        try{
-////            claims = Jwts.parser()
-////                    .setSigningKey(JwtProperties.SECRET)
-////                    .parseClaimsJws(accessToken);
-//            claims = Jwts.parserBuilder()
-//                    .setSigningKey(JwtProperties.SECRET)
-//                    .build()
-//                    .parseClaimsJws(accessToken);
-//            System.out.println("##################################" + claims);
-//        } catch (Exception ignored) {
-//            throw new BaseException(INVALID_JWT);
-//        }
-        claims = Jwts.parserBuilder()
+        try{
+            claims = Jwts.parserBuilder()
                     .setSigningKey(JwtProperties.SECRET)
                     .build()
                     .parseClaimsJws(accessToken);
-            System.out.println("##################################" + claims);
+        } catch (Exception ignored) {
+            throw new BaseException(INVALID_JWT);
+        }
 
         // 3. userId 추출
         return claims.getBody().get("userId",Long.class);
