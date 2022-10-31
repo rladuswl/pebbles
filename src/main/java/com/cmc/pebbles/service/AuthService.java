@@ -41,11 +41,6 @@ public class AuthService {
     }
 
     public LoginRes createUser(JoinReq joinReq) throws BaseException {
-        // 닉네임 중복 확인
-        if(userRepository.existsByUsername(joinReq.getUsername())){
-            throw new BaseException(DUPLICATED_EMAIL);
-        }
-
         String pwd;
         try{
             //암호화
@@ -72,5 +67,9 @@ public class AuthService {
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public Boolean checkUserExist(String username) throws BaseException{
+        return userRepository.existsByUsername(username);
     }
 }

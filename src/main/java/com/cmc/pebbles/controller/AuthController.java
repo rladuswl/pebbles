@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/auth")
+@RequestMapping("/api")
 @Api(tags = {"유저 회원가입, 로그인 Controller"})
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +41,18 @@ public class AuthController {
         try{
             LoginRes loginRes = authService.createUser(joinReq);
             return new BaseResponse<>(loginRes);
+        } catch(BaseException exception){
+            return new BaseResponse((exception.getStatus()));
+        }
+    }
+
+    @ApiOperation(value = "아이디 중복 확인", notes = "회원가입시 아이디 중복 확인을 한다.")
+    @ResponseBody
+    @PostMapping("/duplicate/username")
+    public BaseResponse<Boolean> checkUserExist(@RequestParam String username) {
+        try{
+            Boolean result = authService.checkUserExist(username);
+            return new BaseResponse<>(result);
         } catch(BaseException exception){
             return new BaseResponse((exception.getStatus()));
         }
