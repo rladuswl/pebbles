@@ -25,8 +25,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(true) // Swagger 에서 제공해주는 기본 응답 코드 (200, 401, 403, 404) 등의 노출 여부
                 .apiInfo(apiInfo()) // Swagger UI 로 노출할 정보
-                //.securityContexts(Arrays.asList(securityContext())) // swagger에서 jwt 토큰값 넣기
-                //.securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(Arrays.asList(securityContext())) // swagger에서 jwt 토큰값 넣기
+                .securitySchemes(Arrays.asList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any()) // api 스펙이 작성되어 있는 패키지 (controller)
                 .paths(PathSelectors.any()) // apis 에 위치하는 API 중 특정 path 를 선택
@@ -43,7 +43,7 @@ public class SwaggerConfig {
 
     // swagger에서 jwt 토큰값 넣기
     private ApiKey apiKey() {
-        return new ApiKey("JWT (Bearer)", "Authorization", "header");
+        return new ApiKey("JWT", "X-ACCESS-TOKEN", "header");
     }
 
     private SecurityContext securityContext() {

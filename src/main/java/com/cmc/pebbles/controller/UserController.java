@@ -2,15 +2,12 @@ package com.cmc.pebbles.controller;
 
 import com.cmc.pebbles.config.BaseException;
 import com.cmc.pebbles.config.BaseResponse;
-import com.cmc.pebbles.config.auth.PrincipalDetails;
-import com.cmc.pebbles.domain.User;
 import com.cmc.pebbles.dto.GetHomeRes;
 import com.cmc.pebbles.dto.PostHighlightReq;
 import com.cmc.pebbles.service.UserService;
 import com.cmc.pebbles.utils.JwtService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import static com.cmc.pebbles.config.BaseResponseStatus.*;
