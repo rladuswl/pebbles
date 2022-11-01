@@ -2,10 +2,7 @@ package com.cmc.pebbles.controller;
 
 import com.cmc.pebbles.config.BaseException;
 import com.cmc.pebbles.config.BaseResponse;
-import com.cmc.pebbles.dto.GetHomeRes;
-import com.cmc.pebbles.dto.GetRockManageRes;
-import com.cmc.pebbles.dto.PostHighlightReq;
-import com.cmc.pebbles.dto.UpdateHomeReq;
+import com.cmc.pebbles.dto.*;
 import com.cmc.pebbles.service.PebblesService;
 import com.cmc.pebbles.service.UserService;
 import com.cmc.pebbles.utils.JwtService;
@@ -117,6 +114,26 @@ public class PebblesController {
     }
 
     // 바윗돌 관리 상세 페이지
+    @ApiOperation(value = "바윗돌 관리 상세페이지", notes = "바윗돌 관리에서 하나의 바윗돌을 선택하면 상세페이지로 이동한다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "리턴 성공", response = GetHomeRes.class),
+            @ApiResponse(code = 500, message = "서버 에러")
+
+    })
+    @GetMapping("/rock/manage/{userId}/{highlight_id}")
+    public BaseResponse<GetRockManageDetailRes> RockManageDetail(@PathVariable("userId") Long userId, @PathVariable("highlight_id") Long highlight_id) {
+        try {
+            Long userIdxByJwt = jwtService.getUserId();
+            if(userId != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            GetRockManageDetailRes getRockManageDetailRes = pebblesService.RockManageDetail(userId, highlight_id);
+            return new BaseResponse<>(getRockManageDetailRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+    }
 
     // 목표 설정 완료
 

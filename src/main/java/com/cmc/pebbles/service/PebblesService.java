@@ -4,6 +4,7 @@ import com.cmc.pebbles.domain.*;
 import com.cmc.pebbles.dto.*;
 import com.cmc.pebbles.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.hql.internal.classic.HavingParser;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -141,11 +142,50 @@ public class PebblesService {
         List<Highlight> highlight = highlightRepository.findByUserId(userId);
         for (Highlight h : highlight) {
             GetRockManageRes getRockManageRes = GetRockManageRes.builder()
+                    .id(h.getId())
                     .start(h.getStart())
                     .end(h.getEnd())
                     .name(h.getName()).build();
             getRockManageResList.add(getRockManageRes);
         }
         return getRockManageResList;
+    }
+
+    public GetRockManageDetailRes RockManageDetail(Long userId, Long highlight_id) {
+        Optional<Highlight> highlight = highlightRepository.findById(highlight_id);
+        List<GetRockManageDetailHabitRes> getRockManageDetailHabitResList = new ArrayList<>();
+
+        List<Habit> habits = habitRepository.findByHighlightId(highlight.get().getId());
+
+        for (Habit h : habits) {
+            List<Todo> todos = todoRepository.findByHabitId(h.getId());
+            List<GetRockManageDetailTodoRes> getRockManageDetailTodoResList = new ArrayList<>();
+
+            for (Todo t : todos) {
+                GetRockManageDetailTodoRes getRockManageDetailTodoRes = GetRockManageDetailTodoRes.builder()
+                        .id(t.getId())
+                        .name(t.getName())
+                        .seq(t.getSeq()).build();
+                getRockManageDetailTodoResList.add(getRockManageDetailTodoRes);
+            }
+            GetRockManageDetailHabitRes getRockManageDetailHabitRes = GetRockManageDetailHabitRes.builder()
+                    .id(h.getId())
+                    .name(h.getName())
+                    .start(h.getStart())
+                    .end(h.getEnd())
+                    .weeks(h.getWeeks())
+                    .seq(h.getSeq())
+                    .getRockManageDetailTodoResList(getRockManageDetailTodoResList).build();
+            getRockManageDetailHabitResList.add(getRockManageDetailHabitRes);
+        }
+
+        GetRockManageDetailRes getRockManageDetailRes = GetRockManageDetailRes.builder()
+                .id(highlight.get().getId())
+                .name(highlight.get().getName())
+                .start(highlight.get().getStart())
+                .end(highlight.get().getEnd())
+                .getRockManageDetailHabitResList(getRockManageDetailHabitResList).build();
+
+        return getRockManageDetailRes;
     }
 }
