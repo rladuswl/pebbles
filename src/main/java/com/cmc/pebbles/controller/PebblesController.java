@@ -3,6 +3,7 @@ package com.cmc.pebbles.controller;
 import com.cmc.pebbles.config.BaseException;
 import com.cmc.pebbles.config.BaseResponse;
 import com.cmc.pebbles.dto.GetHomeRes;
+import com.cmc.pebbles.dto.GetRockManageRes;
 import com.cmc.pebbles.dto.PostHighlightReq;
 import com.cmc.pebbles.dto.UpdateHomeReq;
 import com.cmc.pebbles.service.PebblesService;
@@ -56,7 +57,7 @@ public class PebblesController {
             @ApiResponse(code = 500, message = "서버 에러")
 
     })
-    @PostMapping("/new/{userId}")
+    @PostMapping("/rock/manage/new/{userId}")
     public BaseResponse<String> newHighlight(@PathVariable("userId") Long userId, @RequestBody PostHighlightReq postHighlightReq) {
         try {
             Long userIdxByJwt = jwtService.getUserId();
@@ -94,6 +95,26 @@ public class PebblesController {
     // 홈 habit 날짜 바꾸기
 
     // 바윗돌 관리 페이지
+    @ApiOperation(value = "바윗돌 관리", notes = "바윗돌 관리 카테고리에서 전체 바윗돌(Highlight)를 볼 수 있다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "리턴 성공", response = GetHomeRes.class),
+            @ApiResponse(code = 500, message = "서버 에러")
+
+    })
+    @GetMapping("/rock/manage/{userId}")
+    public BaseResponse<List<GetRockManageRes>> RockManage(@PathVariable("userId") Long userId) {
+        try {
+            Long userIdxByJwt = jwtService.getUserId();
+            if(userId != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetRockManageRes> getRockManageResList = pebblesService.RockManage(userId);
+            return new BaseResponse<>(getRockManageResList);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+    }
 
     // 바윗돌 관리 상세 페이지
 

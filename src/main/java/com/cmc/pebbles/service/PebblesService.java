@@ -37,7 +37,6 @@ public class PebblesService {
             List<Todo> todos = todoRepository.findByHabitId(h.getId());
 
             for (Todo t : todos) {
-                System.out.println("todos" + t.getName());
                 GetTodoRes getTodoRes = GetTodoRes.builder()
                         .id(t.getId())
                         .name(t.getName())
@@ -65,16 +64,10 @@ public class PebblesService {
                         .build();
                 getHabitsResList.add(getHabitsRes);
             }
-            System.out.println("dayhabit " + getTodoResList.get(0).getName());
-            System.out.println("habit안에 todo 잘 들어감 ???????????   " + getHabitsResList.get(0).getTodos().get(0).getName());
-            //getTodoResList.clear();
-            System.out.println("habit안에 todo 잘 들어감 ???????????!!!!!!!!!!   " + getHabitsResList.get(0).getTodos().get(0).getName());
         }
         GetHomeRes getHomeRes = GetHomeRes.builder()
                 .today(formatedNow)
                 .habits(getHabitsResList).build();
-
-        System.out.println("확인   " + getHomeRes.getHabits().get(0).getTodos().get(0).getName());
 
         return getHomeRes;
     }
@@ -141,5 +134,18 @@ public class PebblesService {
             dayHabit.get().setToday_status(uh.getStatus());
         }
         return "완료";
+    }
+
+    public List<GetRockManageRes> RockManage(Long userId) {
+        List<GetRockManageRes> getRockManageResList = new ArrayList<>();
+        List<Highlight> highlight = highlightRepository.findByUserId(userId);
+        for (Highlight h : highlight) {
+            GetRockManageRes getRockManageRes = GetRockManageRes.builder()
+                    .start(h.getStart())
+                    .end(h.getEnd())
+                    .name(h.getName()).build();
+            getRockManageResList.add(getRockManageRes);
+        }
+        return getRockManageResList;
     }
 }
