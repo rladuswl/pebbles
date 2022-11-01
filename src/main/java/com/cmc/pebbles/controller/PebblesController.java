@@ -4,6 +4,7 @@ import com.cmc.pebbles.config.BaseException;
 import com.cmc.pebbles.config.BaseResponse;
 import com.cmc.pebbles.dto.GetHomeRes;
 import com.cmc.pebbles.dto.PostHighlightReq;
+import com.cmc.pebbles.dto.UpdateHomeReq;
 import com.cmc.pebbles.service.PebblesService;
 import com.cmc.pebbles.service.UserService;
 import com.cmc.pebbles.utils.JwtService;
@@ -14,9 +15,12 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.cmc.pebbles.config.BaseResponseStatus.INVALID_USER_JWT;
 
 @Api(tags = {" 주요 API 기능을 제공하는 Controller"})
+@RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
 public class PebblesController {
@@ -31,15 +35,13 @@ public class PebblesController {
             @ApiResponse(code = 500, message = "서버 에러")
 
     })
-    @GetMapping("/auth/home/{userId}")
+    @GetMapping("/home/{userId}")
     public BaseResponse<GetHomeRes> home(@PathVariable("userId") Long userId) {
         try {
             Long userIdxByJwt = jwtService.getUserId();
             if(userId != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-//            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-//            User user = principalDetails.getUser();
             GetHomeRes getHomeRes = pebblesService.home(userId);
             return new BaseResponse<>(getHomeRes);
         } catch (BaseException exception) {
@@ -54,18 +56,13 @@ public class PebblesController {
             @ApiResponse(code = 500, message = "서버 에러")
 
     })
-    @PostMapping("/auth/new/{userId}")
+    @PostMapping("/new/{userId}")
     public BaseResponse<String> newHighlight(@PathVariable("userId") Long userId, @RequestBody PostHighlightReq postHighlightReq) {
-//        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-//        User user = principalDetails.getUser();
-
         try {
             Long userIdxByJwt = jwtService.getUserId();
             if(userId != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-//            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-//            User user = principalDetails.getUser();
             pebblesService.newHighlight(userId, postHighlightReq);
             return new BaseResponse<>("완료");
         } catch (BaseException exception) {
@@ -73,5 +70,37 @@ public class PebblesController {
         }
     }
 
+    // 홈 화면 갱신
+    @ApiOperation(value = "홈 화면 갱신", notes = "하루가 지나면 홈 화면을 갱신한다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "리턴 성공"),
+            @ApiResponse(code = 500, message = "서버 에러")
+
+    })
+    @PostMapping("/home/{userId}/update")
+    public BaseResponse<String> updateHome(@PathVariable("userId") Long userId, @RequestBody List<UpdateHomeReq> updateHomeReqs) {
+        try {
+            Long userIdxByJwt = jwtService.getUserId();
+            if(userId != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            pebblesService.updateHome(userId, updateHomeReqs);
+            return new BaseResponse<>("완료");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 홈 habit 날짜 바꾸기
+
+    // 바윗돌 관리 페이지
+
+    // 바윗돌 관리 상세 페이지
+
+    // 목표 설정 완료
+
+    // 내 돌탑
+
+    // 내 돌탑 상세 페이지
 
 }

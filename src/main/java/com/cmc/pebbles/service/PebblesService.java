@@ -131,8 +131,15 @@ public class PebblesService {
 
             }
         }
+        return "완료";
+    }
 
-
+    @Transactional
+    public String updateHome(Long userId, List<UpdateHomeReq> updateHomeReqs) {
+        for (UpdateHomeReq uh : updateHomeReqs) {
+            Optional<DayHabit> dayHabit = dayHabitRepository.findById(uh.getId());
+            dayHabit.get().setToday_status(uh.getStatus());
+        }
         return "완료";
     }
 }
