@@ -75,6 +75,7 @@ public class PebblesService {
         Optional<User> user = userRepository.findById(userId);
         List<String> habits_name = new ArrayList<>();
         List<String> todos_name = new ArrayList<>();
+        int highlight_total_pebbles = 0;
 
         Highlight highlight = Highlight.builder()
                 .name(postHighlightReq.getName())
@@ -96,7 +97,7 @@ public class PebblesService {
                     .weeks(h.getWeeks())
                     .cons_days(0)
                     .current_pebbles(0)
-                    .total_pebbles(0)
+                    .total_pebbles(h.getDays().size())
                     .seq(h.getSeq())
                     .status("False")
                     .userId(user.get().getId())
@@ -104,6 +105,7 @@ public class PebblesService {
 
             habitRepository.save(habit);
             habits_name.add(habit.getName());
+            highlight_total_pebbles += h.getDays().size();
 
             List<String> days = h.getDays();
             for (String day : days) {
@@ -125,6 +127,8 @@ public class PebblesService {
                 todos_name.add(todo.getName());
             }
         }
+        highlight.setTotal_pebbles(highlight_total_pebbles);
+        highlightRepository.save(highlight);
 
         PostNewRes postNewRes = PostNewRes.builder()
                 .highlight_name(highlight.getName())
