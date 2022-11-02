@@ -74,8 +74,10 @@ public class PebblesService {
     }
 
     @Transactional
-    public String newHighlight(Long userId, PostHighlightReq postHighlightReq) {
+    public PostNewRes newHighlight(Long userId, PostHighlightReq postHighlightReq) {
         Optional<User> user = userRepository.findById(userId);
+        List<String> habits_name = new ArrayList<>();
+        List<String> todos_name = new ArrayList<>();
 
         Highlight highlight = Highlight.builder()
                 .name(postHighlightReq.getName())
@@ -104,6 +106,7 @@ public class PebblesService {
                     .highlight(highlight).build();
 
             habitRepository.save(habit);
+            habits_name.add(habit.getName());
 
             List<String> days = h.getDays();
             for (String day : days) {
@@ -122,10 +125,16 @@ public class PebblesService {
                         .status("False")
                         .habit(habit).build();
                 todoRepository.save(todo);
-
+                todos_name.add(todo.getName());
             }
         }
-        return "완료";
+
+        PostNewRes postNewRes = PostNewRes.builder()
+                .highlight_name(highlight.getName())
+                .habits_name(habits_name)
+                .todos_name(todos_name).build();
+
+        return postNewRes;
     }
 
     @Transactional

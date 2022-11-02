@@ -48,21 +48,21 @@ public class PebblesController {
 
     }
 
-    @ApiOperation(value = "추가 화면", notes = "유저는 highlight, habit, todo를 추가한다.")
+    @ApiOperation(value = "바윗돌 추가 + 목표 설정 완료", notes = "유저는 highlight, habit, todo를 추가한다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "리턴 성공"),
             @ApiResponse(code = 500, message = "서버 에러")
 
     })
     @PostMapping("/rock/manage/new/{userId}")
-    public BaseResponse<String> newHighlight(@PathVariable("userId") Long userId, @RequestBody PostHighlightReq postHighlightReq) {
+    public BaseResponse<PostNewRes> newHighlight(@PathVariable("userId") Long userId, @RequestBody PostHighlightReq postHighlightReq) {
         try {
             Long userIdxByJwt = jwtService.getUserId();
             if(userId != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            pebblesService.newHighlight(userId, postHighlightReq);
-            return new BaseResponse<>("완료");
+            PostNewRes postNewRes = pebblesService.newHighlight(userId, postHighlightReq);
+            return new BaseResponse<>(postNewRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
@@ -134,8 +134,6 @@ public class PebblesController {
         }
 
     }
-
-    // 목표 설정 완료
 
     // 내 돌탑
 
