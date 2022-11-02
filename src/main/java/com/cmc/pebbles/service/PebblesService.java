@@ -237,4 +237,46 @@ public class PebblesService {
 
         return getMyStoneRes;
     }
+
+    public GetMyStoneDetailRes myStoneTowerDetail(Long userId, Long highlightId) {
+        Optional<Highlight> highlight = highlightRepository.findById(highlightId);
+
+        List<Habit> habits = habitRepository.findByHighlightId(highlight.get().getId());
+        List<GetMyStoneHabitRes> getMyStoneHabitResList = new ArrayList<>();
+
+        int current_pebbles = 0;
+        double pebbles_percent = 0.0;
+
+        for (Habit h : habits) {
+            current_pebbles += h.getCurrent_pebbles();
+
+            List<Todo> todos = todoRepository.findByHabitId(h.getId());
+
+            List<String> todos_name = new ArrayList<>();
+            for (Todo t : todos) {
+                todos_name.add(t.getName());
+            }
+
+            GetMyStoneHabitRes getMyStoneHabitRes = GetMyStoneHabitRes.builder()
+                    .name(h.getName())
+                    .start(h.getStart())
+                    .end(h.getEnd())
+                    .total_pebbles(h.getTotal_pebbles())
+                    .current_pebbles(h.getCurrent_pebbles())
+                    .todos_name(todos_name).build();
+
+            getMyStoneHabitResList.add(getMyStoneHabitRes);
+        }
+
+        pebbles_percent = Math.round(((current_pebbles/(double)highlight.get().getTotal_pebbles()) * 100) * 100) / 100.0;
+
+        GetMyStoneDetailRes getMyStoneDetailRes = GetMyStoneDetailRes.builder()
+                .name(highlight.get().getName())
+                .start(highlight.get().getStart())
+                .end(highlight.get().getEnd())
+                .pebbles_percent(pebbles_percent)
+                .getMyStoneHabitResList(getMyStoneHabitResList).build();
+
+        return getMyStoneDetailRes;
+    }
 }

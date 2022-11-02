@@ -175,5 +175,24 @@ public class PebblesController {
     }
 
     // 내 돌탑 상세 페이지
+    @ApiOperation(value = "내 돌탑 상세페이지", notes = "내 돌탑 페이지에서 바윗돌 상세페이지를 볼 수 있다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "리턴 성공", response = GetHomeRes.class),
+            @ApiResponse(code = 500, message = "서버 에러")
+
+    })
+    @GetMapping("/mystone/{userId}/highlight/{highlightId}")
+    public BaseResponse<GetMyStoneDetailRes> myStoneTowerDetail(@PathVariable("userId") Long userId, @PathVariable("highlightId") Long highlightId) {
+        try {
+            Long userIdxByJwt = jwtService.getUserId();
+            if(userId != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            GetMyStoneDetailRes getMyStoneDetailRes = pebblesService.myStoneTowerDetail(userId, highlightId);
+            return new BaseResponse<>(getMyStoneDetailRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 }
