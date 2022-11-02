@@ -18,6 +18,6 @@ import java.util.Map;
 public class GetMyStoneRes {
     @ApiModelProperty(value = "내 목표")
     private String goal;
-    @ApiModelProperty(value = "highlight 이름과 전체 조약돌에 대한 현재 조약돌 퍼센트")
-    private Map<String, Double> name_pebbles;
+    @ApiModelProperty(value = "highlight 리스트 정보")
+    private List<GetMyStoneHighlightRes> getMyStoneHighlightRes;
 }

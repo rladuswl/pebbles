@@ -209,24 +209,31 @@ public class PebblesService {
     public GetMyStoneRes myStoneTower(Long userId) {
         Optional<User> user = userRepository.findById(userId);
         List<Highlight> highlights = highlightRepository.findByUserId(userId);
-        Map<String, Double> name_pebbles = new HashMap<>();
+        List<GetMyStoneHighlightRes> getMyStoneHighlightResList = new ArrayList<>();
 
         for (Highlight h : highlights) {
             int current_pebbles = 0;
             double pebbles_percent = 0.0;
 
             List<Habit> habits = habitRepository.findByHighlightId(h.getId());
+
             for (Habit hb : habits) {
                 current_pebbles += hb.getCurrent_pebbles();
             }
 
             pebbles_percent = Math.round(((current_pebbles/(double)h.getTotal_pebbles()) * 100) * 100) / 100.0;
-            name_pebbles.put(h.getName(), pebbles_percent);
+
+            GetMyStoneHighlightRes getMyStoneHighlightRes = GetMyStoneHighlightRes.builder()
+                    .id(h.getId())
+                    .name(h.getName())
+                    .pebbles_percent(pebbles_percent).build();
+
+            getMyStoneHighlightResList.add(getMyStoneHighlightRes);
         }
 
         GetMyStoneRes getMyStoneRes = GetMyStoneRes.builder()
                 .goal(user.get().getGoal())
-                .name_pebbles(name_pebbles).build();
+                .getMyStoneHighlightRes(getMyStoneHighlightResList).build();
 
         return getMyStoneRes;
     }
