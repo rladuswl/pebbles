@@ -4,15 +4,12 @@ import com.cmc.pebbles.domain.*;
 import com.cmc.pebbles.dto.*;
 import com.cmc.pebbles.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.hql.internal.classic.HavingParser;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -146,7 +143,7 @@ public class PebblesService {
         return "완료";
     }
 
-    public List<GetRockManageRes> RockManage(Long userId) {
+    public List<GetRockManageRes> rockManage(Long userId) {
         List<GetRockManageRes> getRockManageResList = new ArrayList<>();
         List<Highlight> highlight = highlightRepository.findByUserId(userId);
         for (Highlight h : highlight) {
@@ -160,7 +157,7 @@ public class PebblesService {
         return getRockManageResList;
     }
 
-    public GetRockManageDetailRes RockManageDetail(Long userId, Long highlight_id) {
+    public GetRockManageDetailRes rockManageDetail(Long userId, Long highlight_id) {
         Optional<Highlight> highlight = highlightRepository.findById(highlight_id);
         List<GetRockManageDetailHabitRes> getRockManageDetailHabitResList = new ArrayList<>();
 
@@ -196,5 +193,37 @@ public class PebblesService {
                 .getRockManageDetailHabitResList(getRockManageDetailHabitResList).build();
 
         return getRockManageDetailRes;
+    }
+
+    @Transactional
+    public String updateHomeHabit(Long userId, PostUpdateHomeHabitReq postUpdateHomeHabitReq) {
+        Optional<DayHabit> dayHabit = dayHabitRepository.findById(postUpdateHomeHabitReq.getId());
+        dayHabit.get().setToday(postUpdateHomeHabitReq.getDay());
+        return "완료";
+    }
+
+    public GetMyStoneRes myStoneTower(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        List<Highlight> highlights = highlightRepository.findByUserId(userId);
+        Map<String, Double> name_pebbles = new HashMap<>();
+
+        for (Highlight h : highlights) {
+            int current_pebbles = 0;
+            double pebbles_percent = 0.0;
+
+            List<Habit> habits = habitRepository.findByHighlightId(h.getId());
+            for (Habit hb : habits) {
+                current_pebbles += hb.getCurrent_pebbles();
+            }
+
+            pebbles_percent = Math.round(((current_pebbles/(double)h.getTotal_pebbles()) * 100) * 100) / 100.0;
+            name_pebbles.put(h.getName(), pebbles_percent);
+        }
+
+        GetMyStoneRes getMyStoneRes = GetMyStoneRes.builder()
+                .goal(user.get().getGoal())
+                .name_pebbles(name_pebbles).build();
+
+        return getMyStoneRes;
     }
 }

@@ -89,8 +89,6 @@ public class PebblesController {
         }
     }
 
-    // 홈 habit 날짜 바꾸기
-
     // 바윗돌 관리 페이지
     @ApiOperation(value = "바윗돌 관리", notes = "바윗돌 관리 카테고리에서 전체 바윗돌(Highlight)를 볼 수 있다.")
     @ApiResponses(value = {
@@ -99,13 +97,13 @@ public class PebblesController {
 
     })
     @GetMapping("/rock/manage/{userId}")
-    public BaseResponse<List<GetRockManageRes>> RockManage(@PathVariable("userId") Long userId) {
+    public BaseResponse<List<GetRockManageRes>> rockManage(@PathVariable("userId") Long userId) {
         try {
             Long userIdxByJwt = jwtService.getUserId();
             if(userId != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            List<GetRockManageRes> getRockManageResList = pebblesService.RockManage(userId);
+            List<GetRockManageRes> getRockManageResList = pebblesService.rockManage(userId);
             return new BaseResponse<>(getRockManageResList);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -121,21 +119,60 @@ public class PebblesController {
 
     })
     @GetMapping("/rock/manage/{userId}/{highlight_id}")
-    public BaseResponse<GetRockManageDetailRes> RockManageDetail(@PathVariable("userId") Long userId, @PathVariable("highlight_id") Long highlight_id) {
+    public BaseResponse<GetRockManageDetailRes> rockManageDetail(@PathVariable("userId") Long userId, @PathVariable("highlight_id") Long highlight_id) {
         try {
             Long userIdxByJwt = jwtService.getUserId();
             if(userId != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            GetRockManageDetailRes getRockManageDetailRes = pebblesService.RockManageDetail(userId, highlight_id);
+            GetRockManageDetailRes getRockManageDetailRes = pebblesService.rockManageDetail(userId, highlight_id);
             return new BaseResponse<>(getRockManageDetailRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
+    }
 
+    // 홈 habit 날짜 바꾸기
+    @ApiOperation(value = "홈 habit 날짜 바꾸기", notes = "홈 화면에서 habit의 날짜를 바꾼다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "리턴 성공"),
+            @ApiResponse(code = 500, message = "서버 에러")
+
+    })
+    @PostMapping("/home/{userId}/habit/update}")
+    public BaseResponse<String> updateHomeHabit(@PathVariable("userId") Long userId, @RequestBody PostUpdateHomeHabitReq postUpdateHomeHabitReq) {
+        try {
+            Long userIdxByJwt = jwtService.getUserId();
+            if(userId != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            pebblesService.updateHomeHabit(userId, postUpdateHomeHabitReq);
+            return new BaseResponse<>("완료");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 
     // 내 돌탑
+    @ApiOperation(value = "내 돌탑", notes = "내 돌탑 페이지에서 바윗돌 완료 현황을 볼 수 있다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "리턴 성공", response = GetHomeRes.class),
+            @ApiResponse(code = 500, message = "서버 에러")
+
+    })
+    @GetMapping("/mystone/{userId}")
+    public BaseResponse<GetMyStoneRes> myStoneTower(@PathVariable("userId") Long userId) {
+        try {
+            Long userIdxByJwt = jwtService.getUserId();
+            if(userId != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            GetMyStoneRes getMyStoneRes = pebblesService.myStoneTower(userId);
+            return new BaseResponse<>(getMyStoneRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
     // 내 돌탑 상세 페이지
 
