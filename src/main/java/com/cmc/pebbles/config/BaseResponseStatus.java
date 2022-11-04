@@ -49,7 +49,7 @@ public enum BaseResponseStatus {
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
     // [POST] /users
-    DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
+    DUPLICATED_USER(false, 3013, "중복된 아이디입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
     MODIFY_FAIL_POST(false, 3020, "게시물 수정을 실패하였습니다."),
     DELETE_FAIL_POST(false, 3021, "게시물 삭제를 실패하였습니다."),

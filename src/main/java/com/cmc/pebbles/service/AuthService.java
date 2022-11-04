@@ -70,6 +70,10 @@ public class AuthService {
     }
 
     public Boolean checkUserExist(String username) throws BaseException{
-        return userRepository.existsByUsername(username);
+        try {
+            return userRepository.existsByUsername(username);
+        } catch (Exception e) {
+            throw new BaseException(DUPLICATED_USER);
+        }
     }
 }
