@@ -1,5 +1,6 @@
 package com.cmc.pebbles.dto;
 
+import com.cmc.pebbles.domain.Weeks;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class PostHabitReq {
     @ApiModelProperty(value = "habit 종료일")
     private String end;
     @ApiModelProperty(value = "habit 요일")
-    private String weeks;
+    private Weeks weeks;
     @ApiModelProperty(value = "habit 순서")
     private int seq;
     @ApiModelProperty(value = "각 habit의 todo")

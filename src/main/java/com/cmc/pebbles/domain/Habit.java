@@ -24,7 +24,9 @@ public class Habit {
     private String name;
     private String start;
     private String end;
-    private String weeks;
+
+    @Embedded
+    private Weeks weeks;
     //private String time;
     //private String today;
     private int cons_days;

@@ -1,5 +1,6 @@
 package com.cmc.pebbles.dto;
 
+import com.cmc.pebbles.domain.Weeks;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Embedded;
 import java.util.List;
 
 @ApiModel(value = "habit 정보 (홈 응답 Dto)", description = "해당 유저의 모든 habit 정보")
@@ -24,7 +26,7 @@ public class GetHabitsRes {
     @ApiModelProperty(value = "habit 종료일")
     private String end;
     @ApiModelProperty(value = "habit 요일")
-    private String weeks;
+    private Weeks weeks;
 //    @ApiModelProperty(value = "habit 시간")
 //    private String time;
     @ApiModelProperty(value = "habit 실천하는 날짜")

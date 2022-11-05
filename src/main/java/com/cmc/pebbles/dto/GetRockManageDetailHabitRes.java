@@ -1,5 +1,6 @@
 package com.cmc.pebbles.dto;
 
+import com.cmc.pebbles.domain.Weeks;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class GetRockManageDetailHabitRes {
     @ApiModelProperty(value = "종료일")
     private String end;
     @ApiModelProperty(value = "요일")
-    private String weeks;
+    private Weeks weeks;
     @ApiModelProperty(value = "조약돌 제목")
     private String name;
     @ApiModelProperty(value = "조약돌 순서")
