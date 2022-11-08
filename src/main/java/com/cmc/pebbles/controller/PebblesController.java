@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.cmc.pebbles.config.BaseResponseStatus.INVALID_USER_JWT;
+import static com.cmc.pebbles.config.BaseResponseStatus.*;
 
 @Api(tags = {" 주요 API 기능을 제공하는 Controller"})
 @RequestMapping("/api")
@@ -83,7 +84,7 @@ public class PebblesController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             pebblesService.updateHome(userId, updateHomeReqs);
-            return new BaseResponse<>("완료");
+            return new BaseResponse<>(SUCCESS);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
@@ -147,7 +148,7 @@ public class PebblesController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             pebblesService.updateHomeHabit(userId, postUpdateHomeHabitReq);
-            return new BaseResponse<>("완료");
+            return new BaseResponse<>(SUCCESS);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

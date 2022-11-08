@@ -22,7 +22,6 @@ public class AuthController {
     private final JwtService jwtService;
 
     @ApiOperation(value = "로그인 화면", notes = "유저는 아이디와 비밀번호로 로그인을 한다.")
-    @ResponseBody
     @PostMapping ("/login")
     public BaseResponse<LoginRes> login(@RequestBody LoginReq loginReq) {
         try{
@@ -35,7 +34,6 @@ public class AuthController {
     }
 
     @ApiOperation(value = "회원가입 화면", notes = "유저는 아이디와 비밀번호, 목표를 입력하여 회원가입을 한다.")
-    @ResponseBody
     @PostMapping("/join")
     public BaseResponse<LoginRes> createUser(@RequestBody JoinReq joinReq) {
         try{
@@ -47,7 +45,6 @@ public class AuthController {
     }
 
     @ApiOperation(value = "아이디 중복 확인", notes = "회원가입시 아이디 중복 확인을 한다.")
-    @ResponseBody
     @PostMapping("/duplicate/username")
     public BaseResponse<Boolean> checkUserExist(@RequestParam String username) {
         try{
