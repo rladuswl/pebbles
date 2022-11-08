@@ -11,6 +11,8 @@ import com.cmc.pebbles.utils.SHA256;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.cmc.pebbles.config.BaseResponseStatus.*;
 
 @Service
@@ -20,7 +22,17 @@ public class AuthService {
     private final UserRepository userRepository;
 
     public LoginRes login(LoginReq loginReq) throws BaseException {
-        User user = userRepository.findByUsername(loginReq.getUsername());
+
+        Optional<User> user = userRepository.findByUsername(loginReq.getUsername());
+
+        if (!user.isPresent()) {
+            throw new BaseException(FAILED_TO_LOGIN);
+        }
+
+        if (user.get().getStatus().equals("INACTIVE")) {
+            throw new BaseException(OUT_USER);
+        }
+
         String encryptPwd;
 
         try{
@@ -30,8 +42,8 @@ public class AuthService {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
 
-        if (user.getPassword().equals(encryptPwd)) {
-            Long userId = user.getId();
+        if (user.get().getPassword().equals(encryptPwd)) {
+            Long userId = user.get().getId();
             String jwt = jwtService.createJwt(userId);
             return new LoginRes(userId, jwt);
         }
@@ -61,9 +73,9 @@ public class AuthService {
         }
         try{
             //jwt 발급
-            User user = userRepository.findByUsername(joinReq.getUsername());
-            String jwt = jwtService.createJwt(user.getId());
-            return new LoginRes(user.getId(), jwt);
+            Optional<User> user = userRepository.findByUsername(joinReq.getUsername());
+            String jwt = jwtService.createJwt(user.get().getId());
+            return new LoginRes(user.get().getId(), jwt);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
