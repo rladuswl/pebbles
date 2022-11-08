@@ -52,7 +52,7 @@ public class PebblesService {
                         .name(h.getName())
                         .start(h.getStart())
                         .end(h.getEnd())
-                        .weeks(h.getWeeks())
+                        .weeks(new Weeks(h.getWeeks().getMon(), h.getWeeks().getTue(), h.getWeeks().getWed(), h.getWeeks().getThu(), h.getWeeks().getFri(), h.getWeeks().getSat(), h.getWeeks().getSun()))
                         .today(dh.getToday())
                         .cons_days(h.getCons_days())
                         .seq(h.getSeq())
@@ -94,7 +94,7 @@ public class PebblesService {
                     .name(h.getName())
                     .start(h.getStart())
                     .end(h.getEnd())
-                    .weeks(h.getWeeks())
+                    .weeks(new Weeks(h.getWeeks().getMon(), h.getWeeks().getTue(), h.getWeeks().getWed(), h.getWeeks().getThu(), h.getWeeks().getFri(), h.getWeeks().getSat(), h.getWeeks().getSun()))
                     .cons_days(0)
                     .current_pebbles(0)
                     .total_pebbles(h.getDays().size())
@@ -183,7 +183,7 @@ public class PebblesService {
                     .name(h.getName())
                     .start(h.getStart())
                     .end(h.getEnd())
-                    .weeks(h.getWeeks())
+                    .weeks(new Weeks(h.getWeeks().getMon(), h.getWeeks().getTue(), h.getWeeks().getWed(), h.getWeeks().getThu(), h.getWeeks().getFri(), h.getWeeks().getSat(), h.getWeeks().getSun()))
                     .seq(h.getSeq())
                     .getRockManageDetailTodoResList(getRockManageDetailTodoResList).build();
             getRockManageDetailHabitResList.add(getRockManageDetailHabitRes);
