@@ -3,19 +3,25 @@ package com.cmc.pebbles.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@DynamicInsert
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
 public class Weeks {
-    private Boolean Mon;
-    private Boolean Tue;
-    private Boolean Wed;
-    private Boolean Thu;
-    private Boolean Fri;
-    private Boolean Sat;
-    private Boolean Sun;
+//    @Column(columnDefinition = "boolean default false")
+    //@ColumnDefault("0")
+    private Boolean Mon = false;
+    private Boolean Tue = false;
+    private Boolean Wed = false;
+    private Boolean Thu = false;
+    private Boolean Fri = false;
+    private Boolean Sat = false;
+    private Boolean Sun = false;
 }

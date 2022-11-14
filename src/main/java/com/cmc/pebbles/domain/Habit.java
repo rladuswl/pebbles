@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+@DynamicInsert
 @Builder
 @Getter
 @Entity
@@ -26,7 +29,7 @@ public class Habit {
     private String end;
 
     @Embedded
-    private Weeks weeks;
+    private Weeks weeks = new Weeks();
     //private String time;
     //private String today;
     private int cons_days;
