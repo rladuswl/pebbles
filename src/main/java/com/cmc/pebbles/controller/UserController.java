@@ -9,6 +9,8 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 import static com.cmc.pebbles.config.BaseResponseStatus.*;
 
 
@@ -31,7 +33,7 @@ public class UserController {
     public BaseResponse<String> outUser(@PathVariable("userId") Long userId) {
         try {
             Long userIdxByJwt = jwtService.getUserId();
-            if(userId != userIdxByJwt){
+            if (!Objects.equals(userId, userIdxByJwt)){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             userService.outUser(userId);
